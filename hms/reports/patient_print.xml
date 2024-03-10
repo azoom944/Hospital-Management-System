@@ -1,0 +1,88 @@
+<odoo>
+    <record id="patient_print" model="ir.actions.report">
+        <field name="name">Patient Print</field>
+        <field name="model">hms.patient</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hms.patient_print_template</field>
+        <field name="report_file">hms.patient_print_template</field>
+        <field name="print_report_name">'Patient - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_hms_patient"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="patient_print_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="d-flex justify-content-end">
+                            <p t-field="o.image" class="me-5" t-options='{"widget": "image" ,"style":"width: 150px;height: 150px"}'/>
+                        </div>
+                        <div>
+                            <h1 class="text-danger mb-3">Patient Status Report</h1>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-9">
+                                <table>
+                                    <tr>
+                                        <td><b>Name :</b><span t-field="o.f_name"/><span t-field="o.l_name"/> </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b> Age :</b> <span t-field="o.age"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b> Department :</b> <span t-field="o.department_ids"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b> Doctors :</b> <span t-field="o.doctor_ids"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class=" col-3">
+                              <table class="me-5">
+                                <tr>
+                                    <td><b> Birth date :</b> <b t-field="o.b_date"/></td>
+                                </tr>
+                                <tr>
+                                    <td><b> Pcr :</b> <span t-field="o.pcr"/></td>
+                                </tr>
+                                <tr>
+                                     <td><b> Blood Type :</b><span t-field="o.blood_type"/></td>
+                                </tr>
+                                <tr>
+                                    <td><b> Email :</b><span t-field="o.email"/></td>
+                                </tr>
+                              </table>
+                            </div>
+                        </div>
+                       <div class="mx-auto" style="width: 200px;">
+                              <h6><font color="red">Log History</font></h6>
+                       </div>
+                       <div class="space">
+                       <table class="table table-sm ">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th>Date</th>
+                                        <th>Created_by</th>
+                                        <th class="text-center">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.log_id" t-as="line" class="table-secondary">
+                                        <td>
+                                            <span t-field="line.created_date"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.created_by"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="line.description"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                       </div>
+                    </t>
+                </t>
+            </t>
+    </template>
+</odoo>
