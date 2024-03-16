@@ -20,7 +20,7 @@
                     <group>
                         <field name="f_name"/>
                         <field name="l_name"/>
-                        <field name="image"/>
+                        <field name="image" widget="image" options="{'size': [100, 100]}"/>
                     </group>
                 </sheet>
             </form>
